@@ -13,12 +13,13 @@ class Books extends Component {
     title: "",
     author: "",
     synopsis: "",
-    result: {}
+    search: "",
+    result: []
   };
 
   componentDidMount() {
     this.loadBooks();
-    this.searchBook();
+    // this.searchBook();
   }
 
   loadBooks = () => {
@@ -28,16 +29,40 @@ class Books extends Component {
       )
       .catch(err => console.log(err));
   };
-  searchBook = query => {
-    console.log(query);
-    API.search(query)
-    .then(res => this.setState({ result: res.data }, console.log(this.state.result)))
-    // console.log(result);
-    .catch(err => console.log(err));
+  searchBook = event => {
+    event.preventDefault();
+    console.log(this.state.search);
+    API.search(this.state.search)
+      // .then(res => this.setState({ result: res.data.items }, console.log(this.state.result)))
+      .then(res => {
+        if (res.data.items === "error") {
+          throw new Error(res.data.items);
+        }
+        else {
+          console.log(this.state.search);
+          console.log(res.data.items);
+          let results = res.data.items
+          console.log(results);
+          results = results.map(newResult => {
+            newResult = {
+              key: newResult.id,
+              id: newResult.id,
+              title: newResult.volumeInfo.title,
+              author: newResult.volumeInfo.authors,
+              description: newResult.volumeInfo.description,
+              image: newResult.volumeInfo.imageLinks.thumbnail,
+              link: newResult.volumeInfo.infoLink
+            }
+            return newResult;
+          })
+          this.setState({ result: results })
+        }
+      })
+      .catch(err => console.log(err));
   }
   handleBookSubmit = event => {
-    event.preventDefault();
-    this.searchBook(this.state.search);
+    // event.preventDefault();
+    this.searchBook({ search: event.target.value }, console.log(this.state.search));
   };
   deleteBook = id => {
     API.deleteBook(id)
@@ -75,7 +100,7 @@ class Books extends Component {
             </Jumbotron>
             <h2>Search Books!</h2>
             <form>
-            <Input
+              <Input
                 value={this.state.search}
                 onChange={this.handleInputChange}
                 name="search"
@@ -137,22 +162,16 @@ class Books extends Component {
                 ))}
               </List>
             ) : (
-              <h3>No Results to Display</h3>
-            )}
+                <h3>No Results to Display</h3>
+              )}
           </Col>
           <Col size="md-12">
             <h2>New Books!</h2>
-            {this.state.result.items ? (
-              <NewBook 
-              title={this.state.result.Title}
-              authors={this.state.result.authors}
-              image={this.state.result.imageLinks}
-              description={this.state.result.description}
-              link={this.state.result.selfLink}
-              />
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+
+            <NewBook
+              result={this.state.result}
+            />
+
           </Col>
         </Row>
       </Container>
