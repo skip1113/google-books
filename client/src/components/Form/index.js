@@ -28,7 +28,7 @@ export function FormBtn(props) {
 
 export function SearchBtn(props) {
   return (
-    <button type="submit" onClick={props.handleBookSubmit} style={{ float: "right", marginBottom: 10 }} className="btn btn-success">
+    <button type="submit" onClick={props.handleBookSubmit} style={{ float: "right", marginBottom: 10 }} className="btn btn-success" disabled={props.disabled}>
       Search
     </button>
   )

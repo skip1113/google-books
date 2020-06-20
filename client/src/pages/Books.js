@@ -30,7 +30,8 @@ class Books extends Component {
       .catch(err => console.log(err));
   };
   searchBook = event => {
-    event.preventDefault();
+    // event.preventDefault();
+    console.log("HellowWorld");
     console.log(this.state.search);
     API.search(this.state.search)
       // .then(res => this.setState({ result: res.data.items }, console.log(this.state.result)))
@@ -41,10 +42,9 @@ class Books extends Component {
         else {
           console.log(this.state.search);
           console.log(res.data.items);
-          let results = res.data.items
+          let results = res.data.items;
           console.log(results);
-          results = results.map(newResult => {
-            newResult = {
+          let mappedResults = results.map(newResult => { return {
               key: newResult.id,
               id: newResult.id,
               title: newResult.volumeInfo.title,
@@ -52,16 +52,15 @@ class Books extends Component {
               description: newResult.volumeInfo.description,
               image: newResult.volumeInfo.imageLinks.thumbnail,
               link: newResult.volumeInfo.infoLink
-            }
-            return newResult;
-          })
-          this.setState({ result: results })
+          }})
+          this.setState({ result: mappedResults, search: "" })
         }
       })
       .catch(err => console.log(err));
   }
   handleBookSubmit = event => {
-    // event.preventDefault();
+    event.preventDefault();
+    console.log("SLAPPYENN00");
     this.searchBook({ search: event.target.value }, console.log(this.state.search));
   };
   deleteBook = id => {
@@ -75,6 +74,7 @@ class Books extends Component {
     this.setState({
       [name]: value
     });
+
   };
 
   handleFormSubmit = event => {
@@ -107,7 +107,7 @@ class Books extends Component {
                 placeholder="Book Title (required)"
               />
               <SearchBtn
-                // disabled={!this.state.search}
+                disabled={!this.state.search}
                 value={this.state.search}
                 handleInputChange={this.handleInputChange}
                 handleBookSubmit={this.handleBookSubmit}
