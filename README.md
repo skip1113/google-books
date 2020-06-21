@@ -1,6 +1,6 @@
 # Google Books
 ## Description
-This is a Full-stack MERN app with Google Books API. That will allow you to search for a book by title, Save books, and add a book of your own. This App uses React componenets, and utilize React lifecycle methods to query and display books based on users searches, and stores saved, and created books in MongoDB.
+This is a Full-stack MERN app with Google Books API. That will allow you to search for a book by title, Save books, delete, and add a book of your own. This App uses React componenets, and utilize React lifecycle methods to query and display books based on users searches, and stores saved, and created books in MongoDB.
 
 ## Link to deployed Github: https://github.com/skip1113/google-books
 ## Link to deployed Heroku: https://gogglebooks.herokuapp.com/
