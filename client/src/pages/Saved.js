@@ -46,10 +46,10 @@ class Saved extends Component {
 
     render() {
         return (
-            <div>
-
+            <div className="container">
+                {/* <h1 className="yours">Your Saved Books</h1> */}
                 <div className='container' style={{ textAlign: 'center' }}>
-                    <u style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>Your Saved Books:</u>
+                    <h1 className="yours">Your Saved Books:</h1>
                     <div className='card'>
                         {this.state.results.map((result => {
                             return (
@@ -64,6 +64,7 @@ class Saved extends Component {
                                         author={result.author}
                                         image={result.image}
                                         description={result.description}
+                                        synopsis={result.synopsis}
                                         deleteBook={this.handleDeleteBook}
                                     />
                                 </div>

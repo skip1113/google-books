@@ -3,7 +3,7 @@ import React from "react";
 function Jumbotron({ children }) {
   return (
     <div
-      style={{ height: 200, clear: "both", paddingTop: 80, textAlign: "center" }}
+      style={{ height: 100, clear: "both", paddingTop: 50, textAlign: "center", backgroundColor: "transparent", color: "white"}}
       className="jumbotron"
     >
       {children}

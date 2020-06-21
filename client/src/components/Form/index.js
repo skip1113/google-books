@@ -20,7 +20,7 @@ export function TextArea(props) {
 
 export function FormBtn(props) {
   return (
-    <button {...props} style={{ float: "right", marginBottom: 10 }} className="btn btn-success">
+    <button {...props} style={{ float: "right", marginBottom: 10 }} className="btn btn-secondary">
       {props.children}
     </button>
   );
@@ -28,7 +28,7 @@ export function FormBtn(props) {
 
 export function SearchBtn(props) {
   return (
-    <button type="submit" onClick={props.handleBookSubmit} style={{ float: "right", marginBottom: 10 }} className="btn btn-success" disabled={props.disabled}>
+    <button type="submit" onClick={props.handleBookSubmit} style={{ float: "right", marginBottom: 10 }} className="btn btn-secondary" disabled={props.disabled}>
       Search
     </button>
   )

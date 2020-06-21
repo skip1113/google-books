@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./style.css";
 import { DeleteBtn } from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";

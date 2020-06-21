@@ -1,10 +1,10 @@
 import React from "react";
 import { SaveBtn, DeleteBtn } from "../DeleteBtn";
 import {Row, Col} from "../Grid"
-
+import "./style.css";
 // New book details
 
-function NewBook({ props, title, link, author, image, description, saveBook, id, deleteBook }) {
+function NewBook({ props, title, link, author, image, description, saveBook, id, deleteBook, synopsis }) {
   if (!saveBook){
     return(
       <div className="article">
@@ -27,6 +27,12 @@ function NewBook({ props, title, link, author, image, description, saveBook, id,
                     <Row>
                       <p className="bookDescription">{description}</p>
                     </Row>
+                    <Row>
+                      <p className="bookSynopsis">{synopsis}</p>
+                      <Row>
+                      <a className="bookLink" href={link}>{link}</a>
+                    </Row>
+                    </Row>
                   </Col>
                   <DeleteBtn
                     id={id}
@@ -41,9 +47,6 @@ function NewBook({ props, title, link, author, image, description, saveBook, id,
   return(
   
         <div className="article">
-          <h3>Search Results</h3>
-          
-            
               <li className="search-list list-group-item">
                 <Row className="SearchResult row" id={title + "Card"} key={id}>
                   <Col size="2" className="bookImage">
