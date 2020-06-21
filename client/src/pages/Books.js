@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+import { DeleteBtn } from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
 import { Link } from "react-router-dom";
@@ -36,31 +36,17 @@ class Books extends Component {
     API.search(this.state.search)
       // .then(res => this.setState({ result: res.data.items }, console.log(this.state.result)))
       .then(res => {
-        if (res.data.items === "error") {
-          throw new Error(res.data.items);
-        }
-        else {
-          console.log(this.state.search);
-          console.log(res.data.items);
-          let results = res.data.items;
-          console.log(results);
-          let mappedResults = results.map(newResult => { return {
-              key: newResult.id,
-              id: newResult.id,
-              title: newResult.volumeInfo.title,
-              author: newResult.volumeInfo.authors,
-              description: newResult.volumeInfo.description,
-              image: newResult.volumeInfo.imageLinks.thumbnail,
-              link: newResult.volumeInfo.infoLink
-          }})
-          this.setState({ result: mappedResults, search: "" })
-        }
+        this.setState({
+          result: res.data.items,
+          search: ""
+        })
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        throw err
+      })
   }
   handleBookSubmit = event => {
     event.preventDefault();
-    console.log("SLAPPYENN00");
     this.searchBook({ search: event.target.value }, console.log(this.state.search));
   };
   deleteBook = id => {
@@ -89,7 +75,40 @@ class Books extends Component {
         .catch(err => console.log(err));
     }
   };
+  handleSaveBook = event => {
+    event.preventDefault();
+    console.log("Saving book");
+    const bookId = event.target.getAttribute('data-id');
+    const newState = { ...this.state};
+    let savedBook = this.state.result.filter(book => book.id === bookId)
+    const newBook = {
+      title: savedBook[0].volumeInfo.title,
+      author: JSON.stringify(savedBook[0].volumeInfo.authors),
+      description: savedBook[0].volumeInfo.description,
+      image: savedBook[0].volumeInfo.imageLinks.thumbnail,
+      link: savedBook[0].volumeInfo.infoLink
+    }
+    if (this.state.result[bookId]) {
+      return alert("You already have that book saved.");
 
+    } else {
+      event.preventDefault();
+      newState.result[bookId] = newBook;
+      // console.log(newState);
+      this.setState(newState);
+      console.log(newState);
+      API.saveBook({
+        title: savedBook[0].volumeInfo.title,
+        author: JSON.stringify(savedBook[0].volumeInfo.authors),
+        description: savedBook[0].volumeInfo.description,
+        image: savedBook[0].volumeInfo.imageLinks.thumbnail,
+        link: savedBook[0].volumeInfo.infoLink
+      })
+      .then(res => this.loadBooks())
+      .catch(err => console.log(err));
+    }
+    
+  };
   render() {
     return (
       <Container fluid>
@@ -167,11 +186,26 @@ class Books extends Component {
           </Col>
           <Col size="md-12">
             <h2>New Books!</h2>
-
-            <NewBook
-              result={this.state.result}
-            />
-
+            {this.state.result.map((result) => {
+              return (
+                <div className="card">
+                  <div className="card-body player">
+                    <NewBook 
+                      key={result.id}
+                      title={result.volumeInfo.title}
+                      id={result.id}
+                      link={result.volumeInfo.infoLink}
+                      author={result.volumeInfo.authors}
+                      image={result.volumeInfo.imageLinks.thumbnail}
+                      description={result.volumeInfo.description}
+                      saveBook={this.handleSaveBook}
+                    />
+                
+                  </div>
+              </div>
+              )
+            })}
+            
           </Col>
         </Row>
       </Container>
