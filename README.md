@@ -8,6 +8,8 @@ This is a Full-stack MERN app with Google Books API. That will allow you to sear
 ## Instructions 
 Click the live link deployed to Heroku and start searching or adding your own books.
 
+![](/client/public/home-img.png)
+
 ## To Run Locally
 * Clone this repository from Github
 * cd to the file 
